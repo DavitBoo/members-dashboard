@@ -1,4 +1,5 @@
-const User = require("./user.model");
+const asyncHandler = require("express-async-handler");
+const User = require("../models/user");
 
 // Controlador para crear un nuevo usuario
 exports.createUser = asyncHandler(async (req, res) => {
@@ -14,42 +15,30 @@ exports.getAllUsers = asyncHandler(async (req, res) => {
 });
 
 // Controlador para obtener un usuario por su ID
-exports.getUserById = async (req, res) => {
-  try {
-    const user = await User.findById(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+exports.getUserById = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: "Usuario no encontrado" });
   }
-};
+  res.status(200).json(user);
+});
 
 // Controlador para actualizar un usuario por su ID
-exports.updateUserById = async (req, res) => {
-  try {
-    const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-    res.status(200).json(user);
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+exports.updateUserById = asyncHandler(async (req, res) => {
+  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+  });
+  if (!user) {
+    return res.status(404).json({ error: "Usuario no encontrado" });
   }
-};
+  res.status(200).json(user);
+});
 
 // Controlador para eliminar un usuario por su ID
-exports.deleteUserById = async (req, res) => {
-  try {
-    const user = await User.findByIdAndRemove(req.params.id);
-    if (!user) {
-      return res.status(404).json({ error: "Usuario no encontrado" });
-    }
-    res.status(204).send();
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+exports.deleteUserById = asyncHandler(async (req, res) => {
+  const user = await User.findByIdAndRemove(req.params.id);
+  if (!user) {
+    return res.status(404).json({ error: "Usuario no encontrado" });
   }
-};
+  res.status(204).send();
+});
