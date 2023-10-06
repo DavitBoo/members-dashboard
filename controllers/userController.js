@@ -1,24 +1,48 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 
+const { body, validationResult } = require("express-validator");
+
 // Controlador para crear un nuevo usuario
-exports.createUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  const { firstname, lastname, email, password, confirmPassword } = req.body;
-  if (password !== confirmPassword) {
-    return res.status(400).json({ error: "Passwords do not match" });
-  }
+exports.createUser = [
+  body("firstname", "First name must contain at least 3 characters").trim().isLength({ min: 3 }).escape(),
+  body("lastname", "Last name must contain at least 3 characters").trim().isLength({ min: 3 }).escape(),
+  body("email", "It must be email format").isEmail().escape(),
+  body("password", "The password must contain at least 6 characters").trim().isLength({ min: 6 }).escape(),
+  body("confirmPassword")
+    .custom((value, { req }) => {
+      if (value !== req.body.password) {
+        throw new Error("Passwords do not match");
+      }
+      return true;
+    })
+    .escape(),
 
-  const newUser = new User({
-    firstname,
-    lastname,
-    email,
-    password,
-  });
+  asyncHandler(async (req, res) => {
+    // Extract the validation errors from a request.
+    const errors = validationResult(req);
 
-  await newUser.save();
-  res.status(201).json(newUser);
-});
+    // if (password !== confirmPassword) {
+    //   return res.status(400).json({ error: "Passwords do not match" });
+    // }
+
+    if (!errors.isEmpty()) {
+      res.status(400).json(errors);
+    } else {
+      const { firstname, lastname, email, password, confirmPassword } = req.body;
+
+      const newUser = new User({
+        firstname,
+        lastname,
+        email,
+        password,
+      });
+
+      await newUser.save();
+      res.status(201).json(newUser);
+    }
+  }),
+];
 
 // Controlador para obtener todos los usuarios
 exports.getAllUsers = asyncHandler(async (req, res) => {
