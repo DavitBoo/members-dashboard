@@ -1,0 +1,30 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Dashboard</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body>
+    <h1>Signup</h1>
+    <p><%= message %></p>
+    <form method="POST" action="">
+      <label for="firstname">First Name:</label>
+      <input type="text" id="firstname" name="firstname" required>
+      <br>
+      <label for="lastname">Last Name:</label>
+      <input type="text" id="lastname" name="lastname" required>
+      <br>
+      <label for="email">E-mail:</label>
+      <input type="email" id="email" name="email" required>
+      <br>
+      <label for="password">Password:</label>
+      <input type="password" id="password" name="password" required>
+      <br>
+      <label for="confirmPassword">Confirm Password:</label>
+      <input type="password" id="confirmPassword" name="confirmPassword" required>
+      <br>
+      <input type="submit" value="Signup">
+    </form>
+  </body>
+</html>

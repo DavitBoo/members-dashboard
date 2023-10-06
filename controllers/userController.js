@@ -3,7 +3,19 @@ const User = require("../models/user");
 
 // Controlador para crear un nuevo usuario
 exports.createUser = asyncHandler(async (req, res) => {
-  const newUser = new User(req.body);
+  console.log(req.body);
+  const { firstname, lastname, email, password, confirmPassword } = req.body;
+  if (password !== confirmPassword) {
+    return res.status(400).json({ error: "Passwords do not match" });
+  }
+
+  const newUser = new User({
+    firstname,
+    lastname,
+    email,
+    password,
+  });
+
   await newUser.save();
   res.status(201).json(newUser);
 });

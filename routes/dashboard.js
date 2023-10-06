@@ -4,11 +4,16 @@ const userController = require("../controllers/userController");
 const messageController = require("../controllers/messageController");
 
 router.get("/", (req, res) => {
-  res.render("index");
+  res.render("index", { message: "Hi, hello!" });
+});
+
+//sign up
+router.get("/signup", (req, res) => {
+  res.render("signup", { message: "Hi, hello!" });
 });
 
 // for users
-router.post("/users", userController.createUser);
+router.post("/signup", userController.createUser);
 router.get("/users", userController.getAllUsers);
 router.get("/users/:id", userController.getUserById);
 router.put("/users/:id", userController.updateUserById);
