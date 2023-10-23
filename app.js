@@ -1,8 +1,14 @@
 const createError = require("http-errors");
 const express = require("express");
 const path = require("path");
+
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+const bcrypt = require("bcrypt");
 
 require("dotenv").config();
 
@@ -11,6 +17,8 @@ const usersRouter = require("./routes/users");
 const dashboardRouter = require("./routes/dashboard");
 
 const app = express();
+
+const User = require("./models/user");
 
 //set up mongoose
 const mongoose = require("mongoose");
@@ -22,6 +30,50 @@ main().catch((err) => console.log(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
+
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true }));
+
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      }
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        return done(null, false, { message: "Incorrect password" });
+      }
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
+
+passport.serializeUser((user, done) => {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await User.findById(id);
+    done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+// app.use(express.urlencoded({ extended: false }));
+
+// it creates a similar context to contextAPI of react to use currentUser "anywhere"
+app.use((req, res, next) => {
+  console.log(req.user);
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));

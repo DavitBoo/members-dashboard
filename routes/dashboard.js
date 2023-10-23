@@ -3,8 +3,31 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const messageController = require("../controllers/messageController");
 
+const passport = require("passport");
+
+router.post(
+  "/log-in",
+  (req, res, next) => {
+    console.log(req.body);
+    next();
+  },
+  passport.authenticate("local", {
+    successRedirect: "/",
+    failureRedirect: "/dashboard/signup",
+  })
+);
+
+router.get("/log-out", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
 router.get("/", (req, res) => {
-  res.render("index", { message: "Hi, hello!" });
+  res.render("index", { user: req.user, message: "hey" });
 });
 
 //sign up
@@ -18,6 +41,8 @@ router.get("/users", userController.getAllUsers);
 router.get("/users/:id", userController.getUserById);
 router.put("/users/:id", userController.updateUserById);
 router.delete("/users/:id", userController.deleteUserById);
+router.get("/join-the-club", userController.getJoinTheClub);
+router.post("/join-the-club", userController.postJoinTheClub);
 
 // for messages
 router.post("/messages", messageController.createMessage);

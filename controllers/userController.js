@@ -1,13 +1,14 @@
 const asyncHandler = require("express-async-handler");
-const User = require("../models/user");
-
+const bcrypt = require("bcrypt");
 const { body, validationResult } = require("express-validator");
+
+const User = require("../models/user");
 
 // Controlador para crear un nuevo usuario
 exports.createUser = [
   body("firstname", "First name must contain at least 3 characters").trim().isLength({ min: 3 }).escape(),
   body("lastname", "Last name must contain at least 3 characters").trim().isLength({ min: 3 }).escape(),
-  body("email", "It must be email format").isEmail().escape(),
+  body("username", "It must be email format").isEmail().escape(),
   body("password", "The password must contain at least 6 characters").trim().isLength({ min: 6 }).escape(),
   body("confirmPassword")
     .custom((value, { req }) => {
@@ -29,17 +30,24 @@ exports.createUser = [
     if (!errors.isEmpty()) {
       res.status(400).json(errors);
     } else {
-      const { firstname, lastname, email, password, confirmPassword } = req.body;
+      const { firstname, lastname, username, password } = req.body;
 
-      const newUser = new User({
-        firstname,
-        lastname,
-        email,
-        password,
+      bcrypt.hash(password, 10, async (err, hashedPassword) => {
+        if (err) {
+          res.status(400).json(err);
+        } else {
+          const newUser = new User({
+            firstname,
+            lastname,
+            username,
+            password: hashedPassword,
+          });
+
+          await newUser.save();
+          res.status(201).json(newUser);
+        }
+        // otherwise, store hashedPassword in DB
       });
-
-      await newUser.save();
-      res.status(201).json(newUser);
     }
   }),
 ];
@@ -77,4 +85,38 @@ exports.deleteUserById = asyncHandler(async (req, res) => {
     return res.status(404).json({ error: "Usuario no encontrado" });
   }
   res.status(204).send();
+});
+
+exports.getJoinTheClub = asyncHandler(async (req, res) => {
+  res.render("joinTheClub");
+});
+
+exports.postJoinTheClub = asyncHandler(async (req, res) => {
+  if (process.env.MEMBER_CODE === req.body.code) {
+    const userId = req.body.userId;
+
+    try {
+      // Busca al usuario por su nombre de usuario:
+      const user = await User.findById(userId);
+
+      if (!user) {
+        console.log("Usuario no encontrado");
+        return res.status(404).json({ message: "Usuario no encontrado" });
+      }
+
+      // Actualiza el estado del usuario de "guest" a "member":
+      user.status = "member";
+
+      // Guarda los cambios en la base de datos:
+      await user.save();
+
+      console.log("Usuario actualizado con éxito");
+      return res.status(200).json({ message: "Usuario actualizado con éxito" });
+    } catch (err) {
+      console.error("Error al actualizar el usuario:", err);
+      return res.status(500).json({ message: "Error interno del servidor" });
+    }
+  } else {
+    return res.status(403).json({ message: "Código de membresía incorrecto" });
+  }
 });
