@@ -7,7 +7,7 @@
   <body>
     <% if (user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
-      <a href="">Create new message</a>
+      <a href="/dashboard/new-message">Create new message</a>
       <a href="/dashboard/log-out">LOG OUT</a>
     <% } else { %>
       <h1>Signup</h1>

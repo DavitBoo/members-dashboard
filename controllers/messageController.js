@@ -1,8 +1,13 @@
 const asyncHandler = require("express-async-handler");
 const Message = require("../models/message");
 
+// Muestra formualrio para crear un nuevo mensaje
+exports.newMessage = asyncHandler(async (req, res) => {
+  res.render("newMessage");
+});
+
 // Controlador para crear un nuevo mensaje
-exports.createMessage = asyncHandler(async (req, res) => {
+exports.postMessage = asyncHandler(async (req, res) => {
   const newMessage = new Message(req.body);
   await newMessage.save();
   res.status(201).json(newMessage);

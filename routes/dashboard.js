@@ -45,7 +45,8 @@ router.get("/join-the-club", userController.getJoinTheClub);
 router.post("/join-the-club", userController.postJoinTheClub);
 
 // for messages
-router.post("/messages", messageController.createMessage);
+router.get("/new-message", messageController.newMessage);
+router.post("/messages", messageController.postMessage);
 router.get("/messages", messageController.getAllMessages);
 router.get("/messages/:id", messageController.getMessageById);
 router.put("/messages/:id", messageController.updateMessageById);
