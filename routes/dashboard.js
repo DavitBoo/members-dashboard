@@ -3,6 +3,9 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const messageController = require("../controllers/messageController");
 
+const Message = require("../models/message");
+const User = require("../models/user");
+
 const passport = require("passport");
 
 router.post(
@@ -26,8 +29,14 @@ router.get("/log-out", (req, res, next) => {
   });
 });
 
-router.get("/", (req, res) => {
-  res.render("index", { user: req.user, message: "hey" });
+router.get("/", async (req, res, next) => {
+  try {
+    const messages = await Message.find().populate("userId");
+    console.log(messages);
+    res.render("index", { user: req.user, messages: messages });
+  } catch (err) {
+    return next(err);
+  }
 });
 
 //sign up

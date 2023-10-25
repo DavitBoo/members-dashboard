@@ -12,7 +12,15 @@
     <% } else { %>
       <h1>Signup</h1>
     <% } %>  
-    <p><%= message %></p>
+    <ul>
+      <% messages.forEach(function(message) { %>
+        <li>Message: <%= message.text %></li>
+        <li>Fecha: <%= message.timestamp %></li>
+        <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
+        <hr>
+
+      <% }); %>
+    </ul>
     <a href="/dashboard/signup">Sign Up</a>
 
     <a href="/dashboard/join-the-club">Join the club</a>
