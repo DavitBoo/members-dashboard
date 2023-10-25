@@ -7,6 +7,7 @@
   <body>
     <% if (user) {%>
       <h1>WELCOME BACK <%= user.username %></h1>
+      <p><%= user.status %></p>
       <a href="/dashboard/new-message">Create new message</a>
       <a href="/dashboard/log-out">LOG OUT</a>
     <% } else { %>
@@ -15,8 +16,10 @@
     <ul>
       <% messages.forEach(function(message) { %>
         <li>Message: <%= message.text %></li>
-        <li>Fecha: <%= message.timestamp %></li>
-        <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
+        <% if(user && user.status === 'member') { %>
+          <li>Fecha: <%= message.timestamp %></li>
+          <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
+        <% } %>
         <hr>
 
       <% }); %>
