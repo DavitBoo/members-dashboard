@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema({
   },
   status: {
     type: String,
-    enum: ["guest", "member"],
+    enum: ["guest", "member", "admin"],
     default: "guest",
   },
 });

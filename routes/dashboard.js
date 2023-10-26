@@ -11,7 +11,6 @@ const passport = require("passport");
 router.post(
   "/log-in",
   (req, res, next) => {
-    console.log(req.body);
     next();
   },
   passport.authenticate("local", {
@@ -32,7 +31,6 @@ router.get("/log-out", (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const messages = await Message.find().populate("userId");
-    console.log(messages);
     res.render("index", { user: req.user, messages: messages });
   } catch (err) {
     return next(err);

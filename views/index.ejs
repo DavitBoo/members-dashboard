@@ -16,9 +16,14 @@
     <ul>
       <% messages.forEach(function(message) { %>
         <li>Message: <%= message.text %></li>
-        <% if(user && user.status === 'member') { %>
+        <% if(user && (user.status === 'member' || user.status === 'admin')) { %>
           <li>Fecha: <%= message.timestamp %></li>
           <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
+        <% } %>
+        <% if(user && (user.status === 'admin')) { %>
+          <form action="/dashboard/messages/<%= message._id %>" method="DELETE">
+              <input type="submit" value="Delete">
+          </form>
         <% } %>
         <hr>
 

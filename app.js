@@ -70,7 +70,6 @@ app.use(passport.session());
 
 // it creates a similar context to contextAPI of react to use currentUser "anywhere"
 app.use((req, res, next) => {
-  console.log(req.user);
   res.locals.currentUser = req.user;
   next();
 });
