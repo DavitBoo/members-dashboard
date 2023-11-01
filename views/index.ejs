@@ -21,8 +21,8 @@
           <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
         <% } %>
         <% if(user && (user.status === 'admin')) { %>
-          <form action="/dashboard/messages/<%= message._id %>" method="DELETE">
-              <input type="submit" value="Delete">
+          <form action="/dashboard/delete/<%= message._id %>" method="POST">
+            <input type="submit" value="Delete">
           </form>
         <% } %>
         <hr>
