@@ -45,5 +45,11 @@ exports.deleteMessageById = asyncHandler(async (req, res) => {
   if (!message) {
     return res.status(404).json({ error: "Mensaje no encontrado" });
   }
-  res.status(204).send();
+  try {
+    const messages = await Message.find().populate("userId");
+    res.redirect("/");
+    res.render("index", { user: req.user, messages: messages });
+  } catch (err) {
+    return next(err);
+  }
 });
