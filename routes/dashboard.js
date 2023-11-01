@@ -31,7 +31,7 @@ router.get("/log-out", (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const messages = await Message.find().populate("userId");
-    res.render("index", { user: req.user, messages: messages });
+    res.render("./layout/layout", { user: req.user, messages: messages });
   } catch (err) {
     return next(err);
   }
