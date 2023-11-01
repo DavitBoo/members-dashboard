@@ -120,3 +120,27 @@ exports.postJoinTheClub = asyncHandler(async (req, res) => {
     return res.status(403).json({ message: "Código de membresía incorrecto" });
   }
 });
+
+// panel con todos los usuarios
+exports.getUserPanel = asyncHandler(async (req, res) => {
+  try {
+    const users = await User.find();
+    res.render("userPanel", { users });
+  } catch (err) {
+    console.error("Error al obtener los usuarios:", err);
+    res.status(500).json({ message: "Error interno del servidor" });
+  }
+});
+
+exports.postUserPanel = asyncHandler(async (req, res) => {
+  const { userStatus, usernames } = req.body;
+  console.log(usernames);
+
+  for (const username of usernames) {
+    const newStatus = userStatus[username]; // Nuevo estado para el usuario
+    // Actualiza el estado del usuario en tu base de datos
+    await User.updateOne({ username }, { status: newStatus });
+  }
+
+  res.redirect("/"); // Redirige a la página de panel de usuario después de actualizar
+});

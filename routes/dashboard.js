@@ -50,6 +50,8 @@ router.put("/users/:id", userController.updateUserById);
 router.delete("/users/:id", userController.deleteUserById);
 router.get("/join-the-club", userController.getJoinTheClub);
 router.post("/join-the-club", userController.postJoinTheClub);
+router.get("/user-panel", userController.getUserPanel);
+router.post("/user-panel", userController.postUserPanel);
 
 // for messages
 router.get("/new-message", messageController.newMessage);

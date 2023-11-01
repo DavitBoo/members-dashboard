@@ -1,0 +1,20 @@
+<h1>User Panel</h1>
+
+<form method="POST" action="user-panel">
+
+    <ul>
+        <% users.forEach(function(user) { %>
+            
+            <li><%= user.username %> 
+                - Status:
+                <select name="userStatus">
+                    <option value="guest" <% if (user.status === "guest") { %>selected<% } %>>Guest</option>
+                    <option value="member" <% if (user.status === "member") { %>selected<% } %>>Member</option>
+                    <option value="admin" <% if (user.status === "admin") { %>selected<% } %>>Admin</option>
+                </select>
+            </li>
+            <input type="hidden" name="usernames" value="<%= user.username %>" >
+        <% }); %>
+    </ul>
+    <input type="submit" value="Save">
+</form>

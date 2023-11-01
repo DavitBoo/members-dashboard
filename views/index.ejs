@@ -9,6 +9,9 @@
       <h1>WELCOME BACK <%= user.username %></h1>
       <p><%= user.status %></p>
       <a href="/dashboard/new-message">Create new message</a>
+      <% if(user && (user.status === 'admin')) { %>
+        <a href="/dashboard/user-panel">User Panel</a>
+        <% } %>
       <a href="/dashboard/log-out">LOG OUT</a>
     <% } else { %>
       <h1>Signup</h1>
