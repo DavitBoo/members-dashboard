@@ -3,7 +3,7 @@ const Message = require("../models/message");
 
 // Muestra formualrio para crear un nuevo mensaje
 exports.newMessage = asyncHandler(async (req, res) => {
-  res.render("newMessage");
+  res.render("./layout/layout", { page: "newMessage" });
 });
 
 // Controlador para crear un nuevo mensaje
@@ -48,7 +48,7 @@ exports.deleteMessageById = asyncHandler(async (req, res) => {
   try {
     const messages = await Message.find().populate("userId");
     res.redirect("/");
-    res.render("index", { user: req.user, messages: messages });
+    res.render("./layout/layout", { page: "index", user: req.user, messages: messages });
   } catch (err) {
     return next(err);
   }

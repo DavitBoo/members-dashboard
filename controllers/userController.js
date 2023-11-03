@@ -88,7 +88,7 @@ exports.deleteUserById = asyncHandler(async (req, res) => {
 });
 
 exports.getJoinTheClub = asyncHandler(async (req, res) => {
-  res.render("joinTheClub");
+  res.render("./layout/layout", { page: "joinTheClub" });
 });
 
 exports.postJoinTheClub = asyncHandler(async (req, res) => {
@@ -125,7 +125,7 @@ exports.postJoinTheClub = asyncHandler(async (req, res) => {
 exports.getUserPanel = asyncHandler(async (req, res) => {
   try {
     const users = await User.find();
-    res.render("userPanel", { users });
+    res.render("./layout/layout", { page: "userPanel", users });
   } catch (err) {
     console.error("Error al obtener los usuarios:", err);
     res.status(500).json({ message: "Error interno del servidor" });

@@ -31,7 +31,7 @@ router.get("/log-out", (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     const messages = await Message.find().populate("userId");
-    res.render("./layout/layout", { user: req.user, messages: messages });
+    res.render("./layout/layout", { page: "index", user: req.user, messages: messages });
   } catch (err) {
     return next(err);
   }
@@ -39,7 +39,7 @@ router.get("/", async (req, res, next) => {
 
 //sign up
 router.get("/signup", (req, res) => {
-  res.render("signup", { message: "Hi, hello!" });
+  res.render("./layout/layout", { page: "signup", user: req.user,  message: "Hi, hello!" });
 });
 
 // for users
