@@ -1,38 +1,33 @@
-<% if (user) {%>
-<h1>WELCOME BACK <%= user.username %></h1>
-<p><%= user.status %></p>
-<a href="/dashboard/new-message">Create new message</a>
-<% if(user && (user.status === 'admin')) { %>
-<a href="/dashboard/user-panel">User Panel</a>
-<% } %>
-<a href="/dashboard/log-out">LOG OUT</a>
-<% } else { %>
-<h1>Signup</h1>
-<% } %>
-<ul>
-  <% messages.forEach(function(message) { %>
-  <li>Message: <%= message.text %></li>
-  <% if(user && (user.status === 'member' || user.status === 'admin')) { %>
-  <li>Fecha: <%= message.timestamp %></li>
-  <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
-  <% } %> <% if(user && (user.status === 'admin')) { %>
-  <form action="/dashboard/delete/<%= message._id %>" method="POST">
-    <input type="submit" value="Delete" />
-  </form>
+<div class="container">
+  <% if (user) {%>
+  <h1>WELCOME BACK <%= user.username %></h1>
+  <p><%= user.status %></p>
+  <a href="/dashboard/new-message">Create new message</a>
+  <% if(user && (user.status === 'admin')) { %>
+  <a href="/dashboard/user-panel">User Panel</a>
   <% } %>
-  <hr />
+  <a href="/dashboard/log-out">LOG OUT</a>
+  <% } else { %>
 
-  <% }); %>
-</ul>
-<a href="/dashboard/signup">Sign Up</a>
-
-<a href="/dashboard/join-the-club">Join the club</a>
-
-<h1>please log in</h1>
-<form action="/dashboard/log-in" method="POST">
-  <label for="email">Email</label>
-  <input name="username" placeholder="email" type="text" />
-  <label for="password">Password</label>
-  <input name="password" type="password" />
-  <button>Log In</button>
-</form>
+    
+  <% } %>
+  <ul>
+    <% messages.forEach(function(message) { %>
+    <li>Message: <%= message.text %></li>
+    <% if(user && (user.status === 'member' || user.status === 'admin')) { %>
+    <li>Fecha: <%= message.timestamp %></li>
+    <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
+    <% } %> <% if(user && (user.status === 'admin')) { %>
+    <form action="/dashboard/delete/<%= message._id %>" method="POST">
+      <input type="submit" value="Delete" />
+    </form>
+    <% } %>
+    <hr />
+  
+    <% }); %>
+  </ul>
+  <a href="/dashboard/signup">Sign Up</a>
+  
+  <a href="/dashboard/join-the-club">Join the club</a>
+  
+</div>

@@ -3,7 +3,7 @@ const Message = require("../models/message");
 
 // Muestra formualrio para crear un nuevo mensaje
 exports.newMessage = asyncHandler(async (req, res) => {
-  res.render("./layout/layout", { page: "newMessage" });
+  res.render("./layout/layout", { page: "newMessage", user: req.user });
 });
 
 // Controlador para crear un nuevo mensaje

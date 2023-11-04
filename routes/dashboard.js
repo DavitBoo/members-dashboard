@@ -41,9 +41,10 @@ router.get("/", async (req, res, next) => {
 router.get("/signup", (req, res) => {
   res.render("./layout/layout", { page: "signup", user: req.user,  message: "Hi, hello!" });
 });
+router.post("/signup", userController.createUser);
 
 // for users
-router.post("/signup", userController.createUser);
+router.get("/log-in", userController.loginUser);
 router.get("/users", userController.getAllUsers);
 router.get("/users/:id", userController.getUserById);
 router.put("/users/:id", userController.updateUserById);

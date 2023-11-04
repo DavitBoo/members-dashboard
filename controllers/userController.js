@@ -52,6 +52,10 @@ exports.createUser = [
   }),
 ];
 
+exports.loginUser = asyncHandler(async (req, res) => {
+  res.render("./layout/layout", { page: "login", user: req.user });
+})
+
 // Controlador para obtener todos los usuarios
 exports.getAllUsers = asyncHandler(async (req, res) => {
   const users = await User.find();
@@ -88,7 +92,7 @@ exports.deleteUserById = asyncHandler(async (req, res) => {
 });
 
 exports.getJoinTheClub = asyncHandler(async (req, res) => {
-  res.render("./layout/layout", { page: "joinTheClub" });
+  res.render("./layout/layout", { page: "joinTheClub", user: req.user});
 });
 
 exports.postJoinTheClub = asyncHandler(async (req, res) => {
@@ -125,7 +129,7 @@ exports.postJoinTheClub = asyncHandler(async (req, res) => {
 exports.getUserPanel = asyncHandler(async (req, res) => {
   try {
     const users = await User.find();
-    res.render("./layout/layout", { page: "userPanel", users });
+    res.render("./layout/layout", { page: "userPanel", users, user: req.user });
   } catch (err) {
     console.error("Error al obtener los usuarios:", err);
     res.status(500).json({ message: "Error interno del servidor" });
