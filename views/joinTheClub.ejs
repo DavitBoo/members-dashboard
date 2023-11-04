@@ -1,18 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Join the club</title>
-</head>
-<body>
-    <h1>Membership Activation</h1>
-    <form method="POST" action="/dashboard/join-the-club">
-        <label for="code">Activation code</label>
-        <input type="hidden" value="<%= currentUser._id %>" name="userId">
-        <input type="text" name="code" id="code">
-        <button type="submit">Activate membership</button>
-    </form>
+<div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-4 col-md-8">
+            
+          <form class="p-3 text-center" method="POST" action="/dashboard/join-the-club">
+                    <h2 class="text-center">Membership Activation</h2>
+                    <div class="mb-3">
+                        <label class="form-label" for="code">Activation code</label>
+                        <input class="form-control" type="text" name="code" id="code">
+                    </div>
+                    <input type="hidden" value="<%= currentUser._id %>" name="userId">
+                    <button class="btn btn-primary" type="submit">Activate membership</button>
+                </form>
+        </div>
+    </div>
+</div>
 
-</body>
-</html>

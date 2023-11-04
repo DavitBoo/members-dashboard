@@ -7,10 +7,22 @@
   <a href="/dashboard/user-panel">User Panel</a>
   <% } %>
   <a href="/dashboard/log-out">LOG OUT</a>
-  <% } else { %>
 
-    
+    <% if (user.status === 'guest' ) {%>
+      <div class="container">
+        <div class="row justify-content-center text-center">
+          <div class="col-lg-8 col-md-10 join-the-club">
+            <p class="mb-0">Do you want to post your ideas about Iceland?</p>
+            <p>Introduce the code to post and to see who is posting</p>
+            <a class="btn btn-primary" href="/dashboard/join-the-club">Join the club</a>
+          </div>
+        </div>
+      </div>
+    <% } %> 
+  <% } else { %> 
+  
   <% } %>
+
   <ul>
     <% messages.forEach(function(message) { %>
     <li>Message: <%= message.text %></li>
@@ -23,11 +35,10 @@
     </form>
     <% } %>
     <hr />
-  
+
     <% }); %>
   </ul>
   <a href="/dashboard/signup">Sign Up</a>
-  
-  <a href="/dashboard/join-the-club">Join the club</a>
+
   
 </div>

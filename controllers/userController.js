@@ -44,7 +44,7 @@ exports.createUser = [
           });
 
           await newUser.save();
-          res.status(201).json(newUser);
+          res.redirect("/dashboard");
         }
         // otherwise, store hashedPassword in DB
       });

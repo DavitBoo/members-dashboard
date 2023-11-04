@@ -48,7 +48,7 @@ exports.deleteMessageById = asyncHandler(async (req, res) => {
   try {
     const messages = await Message.find().populate("userId");
     res.redirect("/");
-    res.render("./layout/layout", { page: "index", user: req.user, messages: messages });
+    res.render("./layout/layout", { page: "index", user: req.user, messages: messages});
   } catch (err) {
     return next(err);
   }
