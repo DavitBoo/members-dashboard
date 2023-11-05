@@ -115,7 +115,8 @@ exports.postJoinTheClub = asyncHandler(async (req, res) => {
       await user.save();
 
       console.log("Usuario actualizado con éxito");
-      return res.status(200).json({ message: "Usuario actualizado con éxito" });
+      return res.redirect("/");
+      
     } catch (err) {
       console.error("Error al actualizar el usuario:", err);
       return res.status(500).json({ message: "Error interno del servidor" });

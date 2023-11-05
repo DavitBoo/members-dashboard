@@ -1,44 +1,86 @@
 <div class="container">
   <% if (user) {%>
-  <h1>WELCOME BACK <%= user.username %></h1>
-  <p><%= user.status %></p>
-  <a href="/dashboard/new-message">Create new message</a>
-  <% if(user && (user.status === 'admin')) { %>
-  <a href="/dashboard/user-panel">User Panel</a>
-  <% } %>
-  <a href="/dashboard/log-out">LOG OUT</a>
+  <h2>Welcome back <%= user.username %></h2>
 
+
+
+  <div class="container my-5">
+    <div class="row justify-content-center text-center">
     <% if (user.status === 'guest' ) {%>
-      <div class="container">
-        <div class="row justify-content-center text-center">
           <div class="col-lg-8 col-md-10 join-the-club">
             <p class="mb-0">Do you want to post your ideas about Iceland?</p>
             <p>Introduce the code to post and to see who is posting</p>
             <a class="btn btn-primary" href="/dashboard/join-the-club">Join the club</a>
           </div>
+          <% } else if (user.status === 'admin' || user.status === 'member' ) { %> 
+            <div class="col-lg-4 col-md-5 col-6"><a class="btn btn-primary" href="/dashboard/new-message">Create new post</a></div>
+            <% } %>
+          </div>
         </div>
-      </div>
-    <% } %> 
+
+
   <% } else { %> 
   
   <% } %>
 
-  <ul>
+
     <% messages.forEach(function(message) { %>
-    <li>Message: <%= message.text %></li>
-    <% if(user && (user.status === 'member' || user.status === 'admin')) { %>
-    <li>Fecha: <%= message.timestamp %></li>
-    <li>Usuario: <%= message.userId.firstname %> <%= message.userId.lastname %></li>
-    <% } %> <% if(user && (user.status === 'admin')) { %>
-    <form action="/dashboard/delete/<%= message._id %>" method="POST">
-      <input type="submit" value="Delete" />
-    </form>
-    <% } %>
-    <hr />
+      <div class="container my-4">
+        <div class="row justify-content-center">
+          <div class="col-lg-8 col-md-10 p-4 message">
+            <div class="d-flex justify-content-between">
+              
+                <% if (user) {%>
+                  <% if (user.status === 'admin' || user.status === 'member' ) { %>
+                    <p class="mb-1">Posted by:  <%= message.userId.firstname %> <%= message.userId.lastname %></p>
+                  <%} else { %>
+                    <p class="mb-1">Posted by:  ****** </p>
+                  <% } %>
+                <% } else { %>
+                  <p class="mb-1">Posted by:  ****** </p>
+                <% } %>
+              
+                  <% if(user && (user.status === 'member' || user.status === 'admin')) { %>
+                    <%
+              
+                      let dateObj = new Date(message.timestamp);
+                      let now = new Date();
+                      let diff = now - dateObj;
+                      let oneHour = 60 * 60 * 1000;
+                      let oneDay = 24 * oneHour; // Un día en milisegundos
+                      let dateTime = ""; // Inicializar la variable
+              
+                      // Verificar si la diferencia es menor a una hora
+                      if (diff < oneHour) {
+                        dateTime = "now";
+                      } else if (diff < oneDay) {
+                        // Calcular las horas transcurridas y redondear hacia abajo
+                        let hoursAgo = Math.floor(diff / oneHour);
+                        dateTime = hoursAgo + " h ago";
+                      } else {
+                        // Si ha pasado más de un día, mostrar la fecha y hora
+                        let date = dateObj.toLocaleDateString();
+                        let time = dateObj.toLocaleTimeString();
+                        dateTime = date + ' ' + time;
+                      }
+                    %>
+                    <p >Posted: <%= dateTime %> </p>
+                  <% } %>
+            </div>
+                <p class="mb-1">Message: <%= message.text %></p>
+                <% if(user && (user.status === 'admin')) { %>
+              <form class="delete-form" action="/dashboard/delete/<%= message._id %>" method="POST">
+                <input class="btn btn-primary" type="submit" value="Delete" />
+              </form>
+                <% } %>
+          </div>
+        </div>
+      </div>
+
 
     <% }); %>
-  </ul>
-  <a href="/dashboard/signup">Sign Up</a>
+
+  
 
   
 </div>

@@ -1,11 +1,13 @@
-<h1>User Panel</h1>
+<div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col">
+<form class="p-4" method="POST" action="user-panel">
+    <h1>User Panel</h1>
 
-<form method="POST" action="user-panel">
-
-    <ul>
+    <ul >
         <% users.forEach(function(user) { %>
             
-            <li><%= user.username %> 
+            <li class="mb-2"><%= user.username %> 
                 - Status:
                 <select name="userStatus">
                     <option value="guest" <% if (user.status === "guest") { %>selected<% } %>>Guest</option>
@@ -16,5 +18,8 @@
             <input type="hidden" name="usernames" value="<%= user.username %>" >
         <% }); %>
     </ul>
-    <input type="submit" value="Save">
+    <input class="btn btn-primary" type="submit" value="Save">
 </form>
+</div>
+</div>
+</div>

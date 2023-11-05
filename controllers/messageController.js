@@ -10,7 +10,7 @@ exports.newMessage = asyncHandler(async (req, res) => {
 exports.postMessage = asyncHandler(async (req, res) => {
   const newMessage = new Message(req.body);
   await newMessage.save();
-  res.status(201).json(newMessage);
+  res.redirect('/');
 });
 
 // Controlador para obtener todos los mensajes

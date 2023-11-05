@@ -1,13 +1,23 @@
-<h1>Post a new message</h1>
-<p>Messages are anonymous to everyone, except for members!</p>
-
-<form action="/dashboard/messages" method="POST">
-    <label for="title">Title</label>
-    <input type="text" name="title" id="title">
+<div class="container my-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-6 col-md-10">
+<form class="p-3 text-center" action="/dashboard/messages" method="POST">
+    <h2 class="text-center">Post a new message</h2>
+    <p>Messages are anonymous to everyone, except for members!</p>
+    <div class="mb-3 d-flex flex-column text-start">
+        <label for="title">Title</label>
+        <input type="text" name="title" id="title">
+    </div>
     
-    <label for="text">Text</label>
-    <textarea name="text" id="text" cols="30" rows="10"></textarea>
+    <div class="mb-3 d-flex flex-column text-start">
+        <label for="text">Text</label>
+        <textarea name="text" id="text" cols="30" rows="10"></textarea>
+    </div>
 
     <input type="hidden" value="<%= currentUser._id %>" name="userId">
-    <input type="submit" value="Post your message">
+    <input class="btn btn-primary" type="submit" value="Post your message">
 </form>
+
+      </div>
+      </div>
+      </div>
