@@ -10,7 +10,11 @@ const cookieParser = require("cookie-parser");
 const logger = require("morgan");
 const bcrypt = require("bcrypt");
 
+const helmet = require("helmet");
+
 require("dotenv").config();
+
+
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
@@ -19,6 +23,15 @@ const dashboardRouter = require("./routes/dashboard");
 const app = express();
 
 const User = require("./models/user");
+
+// Set CSP headers to allow our Bootstrap and Jquery to be served
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      "script-src": ["'self'", "cdn.jsdelivr.net"],
+    },
+  })
+);
 
 //set up mongoose
 const mongoose = require("mongoose");
